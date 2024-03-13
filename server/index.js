@@ -7,8 +7,22 @@ app.use(cors());
 
 app.get('/movies/list', (req, res) => {
     for (i=0; i < 1000000000; i++){}
+    const limit = 12;
+    let { offset } = req.query;
+    
+    if (!offset) {
+        offset = 0;
+    }
 
-    res.status(200).send(movies);
+    returnData = []
+    counter = 0; 
+    while (movies[offset] && counter < limit) {
+        returnData.push(movies[offset]);
+        offset++;
+        counter++;
+    }
+
+    res.status(200).send(returnData);
 });
 
 app.get('/movie/:id', (req, res) => {

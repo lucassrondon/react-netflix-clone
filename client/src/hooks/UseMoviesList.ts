@@ -7,13 +7,13 @@ const UseMoviesList = () => {
     const [data, setData] = useState<Movie[] | null>(null);
     const [fetchingFail, setFetchingFail] = useState<boolean | null>(null);
 
-    async function fetchMoviesList() {
+    async function fetchMoviesList(offset: number) {
         setLoadingData(false);
         setData(null);
         setFetchingFail(false);
         try {
             setLoadingData(true);
-            const response = await axios.get('http://localhost:8080/movies/list');
+            const response = await axios.get(`http://localhost:8080/movies/list?offset=${offset}`);
             setLoadingData(false);
             setData(response.data);
         } catch (error) {

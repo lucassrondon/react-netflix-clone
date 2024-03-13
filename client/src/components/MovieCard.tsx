@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { Movie } from '../types';
 import { useNavigate } from 'react-router-dom';
 
-export default function MovieCard({ movie }: {movie: Movie}) {
+export default function MovieCard({ movie, lastElementRef }: {movie: Movie; lastElementRef: ((node: HTMLDivElement) => void) | null}) {
     const [showVideo, setShowVideo] = useState(false);
     const {id, thumbnailUrl, videoUrl, title, description, duration, genre} = movie;
     const navigate = useNavigate();
 
     return (
-        <div className="relative group h-[24vw] md:h-[12vw] w-[100%] bg-zinc-800">
+        <div className="relative group h-[24vw] md:h-[12vw] w-[100%] bg-zinc-800" ref={lastElementRef}>
             <img className="h-full w-full object-cover group-hover:opacity-40 md:group-hover:opacity-0" src={thumbnailUrl} alt="" />
 
             <div className="invisible md:visible w-full h-[24vh] absolute transform transition scale-0 group-hover:translate-x-10 group-hover:-translate-y-72 opacity-0 group-hover:opacity-100 group-hover:scale-110 z-10" onMouseEnter={() => setShowVideo(true)} onMouseLeave={() => setShowVideo(false)}>

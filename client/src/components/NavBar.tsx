@@ -11,18 +11,7 @@ const tabs = [
 ];
 
 export default function NavBar() {
-    const [showNavBackground, setShowNavBackground] = useState(false);
-    console.log('Rerendered')
-    useEffect(() => {
-        window.addEventListener('scroll', () => {
-            console.log(window.scrollY)
-            if (window.scrollY >= 5) {
-                setShowNavBackground(true);
-            } else if (window.scrollY < 5) {
-                setShowNavBackground(false);
-            }
-        });
-    }, [])
+    const [showNavBackground, _] = useState(false);
 
     return (
         <nav className={`${showNavBackground ? 'bg-black bg-opacity-70' : null} flex items-center w-full h-[10vh] fixed z-40 transition`} >
