@@ -1,9 +1,12 @@
-import LoadingGif from '../assets/loading.gif';
+import LoadingCard from "./LoadingCard";
 
 export default function LoadingMovieList() {
     return (
-        <div className="bg-white flex items-center justify-center p-6">
-            <img src={LoadingGif} alt="Loading" />
-        </div>
+        <>
+            <LoadingCard />
+            <LoadingCard />
+            <LoadingCard />
+            <LoadingCard />
+        </>
     );
 }

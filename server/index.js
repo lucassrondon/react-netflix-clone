@@ -1,32 +1,56 @@
+// requires
 const express = require('express');
-var cors = require('cors')
-const movies = require('./movies.json');
+var   cors    = require('cors')
+const movies  = require('./movies.json');
 
+// express setup
 const app = express();
 app.use(cors());
 
-app.get('/movies/list', (req, res) => {
+// functions
+const addDelay = () => {
     for (i=0; i < 1000000000; i++){}
-    const limit = 12;
+}
+
+// routes
+app.get('/movies/list', (req, res) => {
+    addDelay();
+
+    // setting the offset
     let { offset } = req.query;
-    
     if (!offset) {
         offset = 0;
     }
 
-    returnData = []
+    // setting the limit
+    const limit = 12;
+
+    // getting the movies
+    returnMovies = []
     counter = 0; 
     while (movies[offset] && counter < limit) {
-        returnData.push(movies[offset]);
+        returnMovies.push(movies[offset]);
         offset++;
         counter++;
+    }
+
+    // setting lastPage flag
+    lastPage = false;
+    if (counter != 12) {
+        lastPage = true;
+    }
+
+    // setting the return data
+    returnData = {
+        "movies": returnMovies,
+        "lastPage": lastPage
     }
 
     res.status(200).send(returnData);
 });
 
 app.get('/movie/:id', (req, res) => {
-    for (i=0; i < 1000000000; i++){}
+    addDelay();
 
     const {id} = req.params;
 

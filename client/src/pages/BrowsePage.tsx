@@ -5,7 +5,7 @@ import UseMoviesList from "../hooks/UseMoviesList";
 import { useCallback, useEffect, useState, useRef } from "react";
 
 export default function BrowsePage(){
-    const { fetchMoviesList, data, loadingData } = UseMoviesList();
+    const { fetchMoviesList, data, loadingData, lastPage } = UseMoviesList();
     const [offset, setOffset] = useState(0);
     const observer = useRef<null | IntersectionObserver>(null);
 
@@ -15,14 +15,16 @@ export default function BrowsePage(){
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
+                setOffset(offset + 12);
+                fetchMoviesList(offset);
                 console.log('intersecting')
             }
         });
 
-        if (node) observer.current.observe(node);
+        if (node && !lastPage) observer.current.observe(node);
     }, [loadingData]);
 
-    useEffect(() => {fetchMoviesList(offset)}, []);
+    useEffect(() => {fetchMoviesList(offset), setOffset(offset+12)}, []);
     
     return (
         <div>
