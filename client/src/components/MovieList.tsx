@@ -1,6 +1,6 @@
 import MovieCard from "./MovieCard";
-import LoadingMovieList from "../components/LoadingMovieList";
 import { Movie } from '../types';
+import LoadingCard from "./LoadingCard";
 
 interface MovieListProps {
     loadingData: boolean;
@@ -19,7 +19,9 @@ export default function MovieList({loadingData, data, lastElementRef}: MovieList
                 {data && data.map((movie, index) => (
                     <MovieCard key={movie.id} movie={movie} lastElementRef={data.length === index + 1 ? lastElementRef : null}/>
                 ))}
-                {loadingData && <LoadingMovieList />}
+                {loadingData && [1,2,3,4,5,6,7,8,9,10,11,12].map(() => (
+                    <LoadingCard />
+                ))}
             </div>
         </div>
     );

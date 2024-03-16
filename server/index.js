@@ -17,7 +17,7 @@ app.get('/movies/list', (req, res) => {
     addDelay();
 
     // setting the offset
-    let { offset } = req.query;
+    let offset = parseInt(req.query.offset);
     if (!offset) {
         offset = 0;
     }
@@ -26,17 +26,11 @@ app.get('/movies/list', (req, res) => {
     const limit = 12;
 
     // getting the movies
-    returnMovies = []
-    counter = 0; 
-    while (movies[offset] && counter < limit) {
-        returnMovies.push(movies[offset]);
-        offset++;
-        counter++;
-    }
+    returnMovies = movies.slice(offset, offset + limit);
 
     // setting lastPage flag
-    lastPage = false;
-    if (counter != 12) {
+    let lastPage = false;
+    if (returnMovies.length < 12) {
         lastPage = true;
     }
 
@@ -45,7 +39,7 @@ app.get('/movies/list', (req, res) => {
         "movies": returnMovies,
         "lastPage": lastPage
     }
-
+    console.log(returnData)
     res.status(200).send(returnData);
 });
 
