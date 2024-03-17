@@ -1,12 +1,11 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
 
 function App() {
-
   return (
-    <div className='overflow-x-hidden'>
+    <div className="overflow-x-hidden">
       <Outlet />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

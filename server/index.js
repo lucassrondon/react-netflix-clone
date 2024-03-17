@@ -1,7 +1,7 @@
 // requires
 const express = require('express');
-var   cors    = require('cors')
-const movies  = require('./movies.json');
+var   cors    = require('cors');
+const { prisma } = require('./db/index.js');
 
 // express setup
 const app = express();
@@ -13,7 +13,7 @@ const addDelay = () => {
 }
 
 // routes
-app.get('/movies/list', (req, res) => {
+app.get('/movies/list', async (req, res) => {
     addDelay();
 
     // setting the offset
@@ -26,8 +26,12 @@ app.get('/movies/list', (req, res) => {
     const limit = 12;
 
     // getting the movies
-    returnMovies = movies.slice(offset, offset + limit);
+    returnMovies = await prisma.Movie.findMany({
+        skip: offset,
+        take: limit
+    });
 
+    
     // setting lastPage flag
     let lastPage = false;
     if (returnMovies.length < 12) {
@@ -43,15 +47,25 @@ app.get('/movies/list', (req, res) => {
     res.status(200).send(returnData);
 });
 
-app.get('/movie/:id', (req, res) => {
+app.get('/movie/:id', async (req, res) => {
     addDelay();
 
-    const {id} = req.params;
+    const id = parseInt(req.params.id);
+    
+    if (!Number.isInteger(id)) {
+        res.status(404).send({'message': 'not found'});
+        return;
+    } 
 
-    const movie = movies.find((m) => m.id === id);
+    const movie = await prisma.Movie.findUnique({
+        where: {
+            id
+        }
+    });
 
     if (movie) {
-        res.status(200).send(movie)
+        res.status(200).send(movie);
+        return;
     }
     res.status(404).send({'message': 'not found'});
 });
