@@ -14,11 +14,18 @@ datasource db {
 }
 
 model Movie {
-  id           Int    @id @default(autoincrement()) 
+  id           Int    @id @default(autoincrement())
   title        String
   description  String
   thumbnailUrl String
   videoUrl     String
   duration     String
   genre        String
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  username String
+  password String
 }

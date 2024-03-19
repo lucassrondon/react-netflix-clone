@@ -37,7 +37,7 @@ router.get("/movies/list", async (req, res) => {
     lastPage: lastPage,
   };
 
-  res.status(200).send(returnData);
+  return res.status(200).send(returnData);
 });
 
 router.get("/movie/:id", async (req, res) => {
@@ -57,10 +57,9 @@ router.get("/movie/:id", async (req, res) => {
   });
 
   if (movie) {
-    res.status(200).send(movie);
-    return;
+    return res.status(200).send(movie);
   }
-  res.status(404).send({ message: "not found" });
+  return res.status(404).send({ message: "not found" });
 });
 
 module.exports = router;

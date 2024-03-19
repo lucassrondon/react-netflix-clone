@@ -1,17 +1,18 @@
 // requires
-const express = require('express');
-var   cors    = require('cors');
+const express = require("express");
+var cors = require("cors");
 
 // express setup
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 // movie routes
-app.use('', require('./routes/movies'));
+app.use("", require("./routes/movies"));
 
 // auth routes
-app.use('/auth', require('./routes/auth'));
+app.use("/auth", require("./routes/auth"));
 
 app.listen(8080, () => {
-    console.log('Now listening on 8080');
+  console.log("Now listening on 8080");
 });
