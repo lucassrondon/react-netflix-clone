@@ -23,7 +23,7 @@ export default function HomeBanner() {
               className="text-white text-lg p-4 px-16 rounded bg-red-700"
               href="/login"
             >
-              Sign Up
+              Sign In
             </a>
           </div>
         </div>
