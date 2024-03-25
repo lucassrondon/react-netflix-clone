@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import InputText from "../components/InputText";
 import NavBar from "../components/NavBar";
-import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
+import { useForm, SubmitHandler, UseFormRegister, FieldErrors } from "react-hook-form";
 
 enum Variant {
   LOGIN,
@@ -16,10 +16,12 @@ export type Inputs = {
 
 interface AuthFormContextType {
   register: null | UseFormRegister<Inputs>;
+  errors: FieldErrors<Inputs>;
 }
 
 export const AuthFormContext = createContext<AuthFormContextType>({
   register: null,
+  errors: {},
 });
 
 export default function LoginPage() {
@@ -31,9 +33,12 @@ export default function LoginPage() {
     register,
     handleSubmit,
     watch,
+    getValues,
     formState: { errors },
   } = useForm<Inputs>();
 
+  console.log(errors);
+  
   return (
     <div className="w-screen h-screen bg-opacity-50 bg-black">
       <NavBar />
@@ -44,19 +49,31 @@ export default function LoginPage() {
             {variant === Variant.SIGN_UP ? "Sign Up" : "Sign In"}
           </h1>
 
-          <AuthFormContext.Provider value={{register}}>
+          <AuthFormContext.Provider value={{register, errors}}>
             <form
               className="flex flex-col gap-6"
               action=""
               onSubmit={handleSubmit(onSubmit)}
             >
-              <InputText id="email" label="Email" name="email" type="text"/>
+              <InputText id="email" label="Email" name="email" type="email"/>
 
               {variant === Variant.SIGN_UP ? (
                 <InputText id="username" label="Username" name="username" type="text"/>
               ) : null}
 
-              <InputText id="password" label="Password" name="password" type="text" />
+              <InputText 
+                id="password" 
+                label="Password" 
+                name="password" 
+                type="password" 
+                validate={variant === Variant.SIGN_UP ? () => {
+                  const password = getValues('password');
+
+                  if (password.length < 6 || password.length > 255) {
+                    return 'Password must be 6 to 255 characters long.'
+                  }
+                  return true;
+                } : undefined } />
 
               <input
                 className="text-white font-semibold bg-red-600 hover:bg-red-400 cursor-pointer p-2 rounded"
