@@ -1,4 +1,7 @@
 import axios from "axios";
+import Cookie from "universal-cookie";
+
+const cookie = new Cookie();
 
 const UseAuthHook = () => {
   const signUp = async ({
@@ -15,8 +18,9 @@ const UseAuthHook = () => {
       username,
       password,
     });
-
-    return response.data;
+    const { token } = response.data.value;
+    cookie.set("session_token", token);
+    return response.data.value;
   };
 
   const login = async ({
@@ -30,7 +34,9 @@ const UseAuthHook = () => {
       email,
       password,
     });
-    return response.data;
+    const { token } = response.data.value;
+    cookie.set("session_token", token);
+    return response.data.value;
   };
 
   const fetchUser = async () => {};

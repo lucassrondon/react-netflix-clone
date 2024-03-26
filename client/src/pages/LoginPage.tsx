@@ -9,6 +9,7 @@ import {
   FieldErrors,
 } from "react-hook-form";
 import InputError from "../components/InputError";
+import { useNavigate } from "react-router-dom";
 
 enum Variant {
   LOGIN,
@@ -35,6 +36,7 @@ export default function LoginPage() {
   const [variant, setVariant] = useState(Variant.LOGIN);
   const [authError, setAuthError] = useState("");
   const { signUp, login } = UseAuth();
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async ({
     email,
@@ -45,14 +47,16 @@ export default function LoginPage() {
       try {
         await signUp({ email, username, password });
         setAuthError("");
-      } catch (error: any) {
+        navigate("/browse");
+      } catch (error) {
         setAuthError(error.response.data.errors[0].msg);
       }
     } else {
       try {
         await login({ email, password });
         setAuthError("");
-      } catch (error: any) {
+        navigate("/browse");
+      } catch (error) {
         setAuthError(error.response.data.errors[0].msg);
       }
     }
