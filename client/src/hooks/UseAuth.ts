@@ -1,9 +1,13 @@
 import axios from "axios";
 import Cookie from "universal-cookie";
+import { UseDispatch, useDispatch } from "react-redux";
+import { setUser, clearUser } from "../features/userSlice";
 
 const cookie = new Cookie();
 
-const UseAuthHook = () => {
+const UseAuth = () => {
+  const dispatch = useDispatch();
+
   const signUp = async ({
     email,
     username,
@@ -18,9 +22,9 @@ const UseAuthHook = () => {
       username,
       password,
     });
-    const { token } = response.data.value;
+    const { token, user } = response.data.value;
     cookie.set("session_token", token);
-    return response.data.value;
+    dispatch(setUser({ email: user.email, username: user.username }));
   };
 
   const login = async ({
@@ -34,14 +38,39 @@ const UseAuthHook = () => {
       email,
       password,
     });
-    const { token } = response.data.value;
+    const { token, user } = response.data.value;
     cookie.set("session_token", token);
-    return response.data.value;
+    dispatch(setUser({ email: user.email, username: user.username }));
   };
 
-  const fetchUser = async () => {};
+  const fetchUser = async () => {
+    try {
+      const sessionToken = cookie.get("session_token");
+
+      const response = await axios.get("http://localhost:8080/auth/me", {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      });
+
+      const { user } = response.data.value;
+
+      if (!user) {
+        return dispatch(clearUser());
+      }
+
+      dispatch(
+        setUser({
+          email: user.email,
+          username: user.username,
+        })
+      );
+    } catch (error) {
+      return dispatch(clearUser());
+    }
+  };
 
   return { signUp, login, fetchUser };
 };
 
-export default UseAuthHook;
+export default UseAuth;

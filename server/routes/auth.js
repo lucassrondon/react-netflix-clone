@@ -140,17 +140,32 @@ router.get("/me", async (req, res) => {
   try {
     const bearerToken = req.headers.authorization;
     if (!bearerToken)
-      return res.status(401).json({ errors: [{ msg: "Invalid token." }] });
+      return res.status(200).json({
+        errors: [{ msg: "Invalid token." }],
+        value: {
+          user: null,
+        },
+      });
 
     const req_jwt = bearerToken.split("Bearer ")[1];
     if (!req_jwt)
-      return res.status(401).json({ errors: [{ msg: "Invalid token." }] });
+      return res.status(200).json({
+        errors: [{ msg: "Invalid token." }],
+        value: {
+          user: null,
+        },
+      });
 
     let payload;
     try {
       payload = await JWT.verify(req_jwt, process.env.JWT_SECRET_KEY);
     } catch (error) {
-      return res.status(401).json({ errors: [{ msg: "Invalid token." }] });
+      return res.status(200).json({
+        errors: [{ msg: "Invalid token." }],
+        value: {
+          user: null,
+        },
+      });
     }
 
     const userInfo = await prisma.User.findUnique({

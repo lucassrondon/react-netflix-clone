@@ -19,8 +19,8 @@ export default function MovieList({loadingData, data, lastElementRef}: MovieList
                 {data && data.map((movie, index) => (
                     <MovieCard key={movie.id} movie={movie} lastElementRef={data.length === index + 1 ? lastElementRef : null}/>
                 ))}
-                {loadingData && [1,2,3,4,5,6,7,8,9,10,11,12].map(() => (
-                    <LoadingCard />
+                {loadingData && [1,2,3,4,5,6,7,8,9,10,11,12].map((cardNumber) => (
+                    <LoadingCard key={cardNumber}/>
                 ))}
             </div>
         </div>

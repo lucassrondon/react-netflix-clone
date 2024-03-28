@@ -18,7 +18,6 @@ export default function BrowsePage() {
         if (entries[0].isIntersecting) {
           setOffset(offset + 12);
           fetchMoviesList(offset);
-          console.log("intersecting");
         }
       });
 

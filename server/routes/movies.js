@@ -6,6 +6,7 @@ const addDelay = () => {
   for (i = 0; i < 1000000000; i++) {}
 };
 
+
 // routes
 router.get("/movies/list", async (req, res) => {
   addDelay();

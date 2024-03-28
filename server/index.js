@@ -1,11 +1,15 @@
 // requires
 const express = require("express");
 var cors = require("cors");
+const auth = require('./middlewares/auth.js');
 
 // express setup
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// add auth middleware to protected routes
+// app.use('/movies', auth);
 
 // movie routes
 app.use("", require("./routes/movies"));

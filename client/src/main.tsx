@@ -9,6 +9,7 @@ import {
 import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
 import "./index.css";
+import PrivateRoutes from "./utils/PrivateRoutes.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import PlansPage from "./pages/PlansPage.tsx";
@@ -21,8 +22,10 @@ const router = createBrowserRouter(
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/plans" element={<PlansPage />} />
-      <Route path="/browse" element={<BrowsePage />} />
-      <Route path="/browse/watch/:id" element={<WatchPage />} />
+      <Route path="/browse" element={<PrivateRoutes />}>
+        <Route path="/browse" element={<BrowsePage />} />
+        <Route path="/browse/watch/:id" element={<WatchPage />} />
+      </Route>
     </Route>
   )
 );
