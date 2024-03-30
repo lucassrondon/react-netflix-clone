@@ -1,7 +1,6 @@
 // requires
 const express = require("express");
 var cors = require("cors");
-const auth = require('./middlewares/auth.js');
 
 // express setup
 const app = express();

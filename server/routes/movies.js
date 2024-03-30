@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { prisma } = require('../db/index.js');
+const checkAuth = require('../middlewares/checkAuth.js');
 
 // functions
 const addDelay = () => {
@@ -8,7 +9,7 @@ const addDelay = () => {
 
 
 // routes
-router.get("/movies/list", async (req, res) => {
+router.get("/movies/list", checkAuth, async (req, res) => {
   addDelay();
 
   // setting the offset
@@ -41,7 +42,7 @@ router.get("/movies/list", async (req, res) => {
   return res.status(200).send(returnData);
 });
 
-router.get("/movie/:id", async (req, res) => {
+router.get("/movie/:id", checkAuth, async (req, res) => {
   addDelay();
 
   const id = parseInt(req.params.id);

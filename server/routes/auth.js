@@ -60,7 +60,7 @@ router.post(
       });
 
       const token = JWT.sign(user, process.env.JWT_SECRET_KEY, {
-        expiresIn: 3600,
+        expiresIn: 10000,
       });
 
       return res.status(201).json({
@@ -118,7 +118,7 @@ router.post(
       };
 
       token = JWT.sign(userPayload, process.env.JWT_SECRET_KEY, {
-        expiresIn: 3600,
+        expiresIn: 10000,
       });
 
       return res.status(201).json({

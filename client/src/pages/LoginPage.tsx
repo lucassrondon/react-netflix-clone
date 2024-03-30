@@ -77,8 +77,6 @@ export default function LoginPage() {
 
   return (
     <div className="w-screen h-screen bg-opacity-50 bg-black">
-      <NavBar />
-
       <div className="flex h-full items-center justify-center">
         <div className="w-full max-w-md h-fit bg-black bg-opacity-50 py-6 px-12 gap-6 rounded-md">
           <h1 className="text-3xl text-white font-semibold mb-8">

@@ -2,7 +2,6 @@ const JWT = require("jsonwebtoken");
 
 const auth = async (req, res, next) => {
   try {
-    console.log(req)
     const bearerToken = req.headers.authorization;
     if (!bearerToken) {
       return res.status(401).send();
@@ -15,11 +14,10 @@ const auth = async (req, res, next) => {
 
     try {
       const userPayload = await JWT.verify(providedToken, process.env.JWT_SECRET_KEY);
+      next();
     } catch (error) {
       return res.status(401).send();
     }
-
-    next();
 
   } catch (error) {
     return res.status(500).send();

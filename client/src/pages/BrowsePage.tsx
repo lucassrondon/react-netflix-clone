@@ -5,7 +5,7 @@ import UseMoviesList from "../hooks/UseMoviesList";
 import { useCallback, useEffect, useState, useRef } from "react";
 
 export default function BrowsePage() {
-  const { fetchMoviesList, data, loadingData, lastPage } = UseMoviesList();
+  const { fetchMoviesList, data, loadingData, lastPage, fetchingFail, error } = UseMoviesList();
   const [offset, setOffset] = useState(0);
   const observer = useRef<null | IntersectionObserver>(null);
 
@@ -29,6 +29,8 @@ export default function BrowsePage() {
   useEffect(() => {
     fetchMoviesList(offset), setOffset(offset + 12);
   }, []);
+
+  if (fetchingFail) return <div>{error}</div>
 
   return (
     <div>

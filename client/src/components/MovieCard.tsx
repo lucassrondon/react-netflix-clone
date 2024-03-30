@@ -11,7 +11,7 @@ export default function MovieCard({ movie, lastElementRef }: {movie: Movie; last
 
     return (
         <div className="relative group h-[24vw] md:h-[12vw] w-[100%] bg-zinc-800" ref={lastElementRef}>
-            <img className="h-full w-full object-cover group-hover:opacity-40 md:group-hover:opacity-0" src={thumbnailUrl} alt="" />
+            <img className="h-full w-full object-cover group-hover:opacity-40 md:group-hover:opacity-0 cursor-pointer" src={thumbnailUrl} alt="" onClick={() => {navigate(`/browse/watch/${id}`)}} />
 
             <div className="invisible md:visible w-full h-[24vh] absolute transform transition scale-0 group-hover:translate-x-10 group-hover:-translate-y-72 opacity-0 group-hover:opacity-100 group-hover:scale-110 z-10" onMouseEnter={() => setShowVideo(true)} onMouseLeave={() => setShowVideo(false)}>
                 {showVideo && <iframe className="w-full h-[12vw] object-cover rounded-t-md" src={videoUrl} allow="autoplay"></iframe>}
